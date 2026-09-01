@@ -21,8 +21,7 @@
 - **Treatment:** `event_at` used as the sole canonical timestamp throughout; `recorded_at` and `timezone` excluded from any time-of-day or ingestion-order logic. **Any "optimal calling time" conclusion from this dataset would be manufactured, not discovered** — flagged explicitly rather than forced.
 
 ### 1.4 Disposition code duplication
-- `PROMISE_TO_PAY` and `PTP` co-occur as separate codes at similar rates within *every* `disposition_version` — not a version-driven rename, but a genuine duplicate label.
-- **Treatment:** merged to `PTP` in the golden dataset.
+Minor but worth flagging: `PROMISE_TO_PAY` and `PTP` show up as two separate codes at similar rates across every `disposition_version`, so it's not a version rename, just a duplicate label. Merged them to `PTP` in the golden dataset.
 
 ### 1.5 PTP status vs. actual payment reality — severe disconnect
 - Of accounts with a PTP marked `KEPT`, only **41.2%** have *any* successful payment ever recorded, at any date, on any account. Even with an unbounded matching window, 58.5% show zero matching payment.
