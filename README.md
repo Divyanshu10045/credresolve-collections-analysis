@@ -13,6 +13,9 @@ built entirely from payments' own internal fields rather than a cross-table stat
 Full reasoning: [`docs/EXECUTIVE_MEMO.md`](docs/EXECUTIVE_MEMO.md) (2-page summary) and
 [`notebooks/ANALYSIS_NOTEBOOK.ipynb`](notebooks/ANALYSIS_NOTEBOOK.ipynb) (full analysis with narration).
 
+![Executive Dashboard](docs/images/dashboard_ovw.png)
+*One-screen view of the executive dashboard — open `dashboard/executive_dashboard.html` locally for the interactive version.*
+
 ## Repo structure
 
 ```
