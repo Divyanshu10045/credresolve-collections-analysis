@@ -20,6 +20,8 @@ Three drivers on the original list — **geography, language, and agent tenure**
 
 **What we found instead:** the funnel's top (getting someone on the phone) is stable; something downstream of contact is degrading. We traced one likely contributor — **promises-to-pay marked "KEPT" don't reliably correspond to actual payments.** Only 41% of accounts with a "KEPT" PTP have *any* successful payment ever recorded, at any date. If PTP-kept-rate has been used as an operational health metric, it's been tracking something close to noise, not real repayment behavior.
 
+A follow-up statistical check (see STATISTICAL_INVESTIGATION.md, Test 4) sharpens this further: the decline is a fall in the NUMBER of paying accounts (-19.8%), not in how much each payer pays — recovery per paying account is flat (+1.4%). This matters for the recommendation below: it argues for reach-focused digital engagement (contacting more of the book) over anything aimed at squeezing more from already-engaged payers.
+
 ## How confident are we?
 
 High confidence the 11% claim is false as a trend statement, and that duplicate payments inflate reported totals by ~14%. Moderate confidence in the "no driver found" result — it's consistent across every dimension we could test with clean data. Low confidence in any channel-attribution or ROI number below, because **85% of successful payments have no traceable touchpoint in any channel within 5 days beforehand** — most recovery in this dataset cannot be causally tied to any specific outreach action.
