@@ -36,24 +36,27 @@ dashboard/
   executive_dashboard.html    <- one-screen CEO view (open directly in a browser)
 ```
 
-## Key findings, in order of importance
+## Key findings
 
-1. **11% claim is a single-month cherry-pick**, not a trend (see memo).
-2. **`agents.csv` and `borrowers.csv` are unreliable dimension tables** — descriptive attributes
-   (name, team, vendor, city, tenure) are statistically decoupled from the ID itself. Excluded
-   from all analysis.
-3. **No timezone signal exists anywhere in the data** — hour-of-day is flat across all 24 hours
-   regardless of stated timezone, confirmed in both `calls` and `agent_sessions`.
-4. **Duplicate payments inflate reported recovery by a constant ~14.3%/month** — real, but not
-   trend-driving since the rate doesn't change over time.
-5. **No tested operational driver (risk segment, DPD, vendor, channel, attempt frequency)
-   shows a meaningful effect** on contact rate or recovery rate — a genuine negative result.
-6. **PTP "KEPT" status doesn't reliably correspond to actual payment** — only 41% of accounts
-   with a kept PTP have any successful payment ever recorded.
-7. **85% of successful payments have no attributable touchpoint** in any channel within 5 days —
-   channel ROI claims in this dataset are necessarily low-confidence.
-8. **₹10 Cr recommendation: WhatsApp/Digital Engagement, as a capped pilot** (~₹1-1.5 Cr holdout
-   experiment) rather than a full up-front commit, given finding #7.
+The most important thing to understand is that the 11% recovery improvement everyone's been
+citing is a single-month artifact, not a trend — I check this explicitly in the SQL and memo.
+Once you look at the full 7-month window and strip out duplicate payments, recovery is actually
+down ~18.6%.
+
+A few things surprised me while digging in:
+- `agents.csv` and `borrowers.csv` turned out to be unreliable — descriptive fields (name, team,
+  vendor, city) are statistically decoupled from the ID, so I excluded both from analysis rather
+  than risk building conclusions on noise.
+- There's no usable timezone signal anywhere — hour-of-day is flat across all 24 hours regardless
+  of stated timezone, in both `calls` and `agent_sessions`.
+- None of the usual operational levers (risk segment, DPD, vendor, channel, attempt frequency)
+  show a meaningful effect on contact or recovery rate. That's a real negative result, not a gap
+  in the analysis.
+- Only 41% of accounts with a "KEPT" PTP status have any actual payment recorded against them —
+  the label doesn't mean what it says.
+- 85% of successful payments have no attributable touchpoint in any channel within 5 days, which
+  is why I'm recommending the ₹10 Cr go in as a capped WhatsApp/Digital pilot (~₹1-1.5 Cr) rather
+  than a full commit — channel ROI claims here are low-confidence by construction.
 
 ## How to reproduce
 
