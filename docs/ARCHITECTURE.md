@@ -2,7 +2,7 @@
 
 ## Pipeline Overview
 
-![Pipeline architecture](images/architecture_diagram.svg)
+![Pipeline architecture](architecture_diagram.svg)
 
 Data flows left to right: 17 source tables land in `raw.*`, get typed and validated in `staging.*`,
 cleaned per the decisions in `DATA_QUALITY_REPORT.md`, then split into `feature.*` (derived
