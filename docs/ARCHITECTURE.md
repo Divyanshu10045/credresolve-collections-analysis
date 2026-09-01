@@ -2,20 +2,11 @@
 
 ## Pipeline Overview
 
-```
-RAW              STAGING           CLEAN              GOLDEN             FEATURE            METRICS            DASHBOARD
-(source systems) (typed, landed)   (deduped,          (business-ready,   (derived signals    (aggregated,       (one CEO
-                                    validated)         documented         e.g. dpd_bucket,    time-series,       screen)
-                                                        decisions)         attempt_no,         rate-normalized)
-                                                                           channel_last_touch)
+![Pipeline architecture](architecture_diagram.svg)
 
- 17 CSV/API   ─▶  raw.*  tables ─▶  staging.* views ─▶ golden.* views ─▶ feature.* views ─▶ metrics.* views ─▶ BI tool
- sources           (1:1 landed,      (dedup,            (documented       (dpd_bucket,        (contact_rate,
-                    schema-on-        referential        cleaning          vendor_name         recovery_rate,
-                    read, raw          checks,            decisions from    mapping,            recovery_per_
-                    timestamps         type casts)        DATA_QUALITY_     channel               agent_hour,
-                    preserved)                            REPORT.md)        attribution)         MoM trend)
-```
+Data flows left to right: 17 source tables land in `raw.*`, get typed and validated in `staging.*`,
+cleaned per the decisions in `DATA_QUALITY_REPORT.md`, then split into `feature.*` (derived
+signals) and `metrics.*` (rate-normalized aggregates) before reaching the dashboard.
 
 ## Data Contracts
 - Each source system owns a **contract**: expected columns, types, nullable fields, and a `source_extracted_at` watermark. A contract violation (new/missing column, type drift) fails the staging load loudly rather than silently coercing.
