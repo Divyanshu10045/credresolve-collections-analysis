@@ -31,8 +31,7 @@ Minor but worth flagging: `PROMISE_TO_PAY` and `PTP` show up as two separate cod
 455 accounts have null `borrower_id`, and another 898 referenced `borrower_id`s do not exist in `borrowers.csv`. I retained these records and flagged them via `borrower_resolved` rather than dropping them, since doing so would itself create a denominator-manipulation risk.
 
 ### 1.7 Vendor ID fragmentation
-- Multiple `vendor_id`s map to the same real `vendor_name` (e.g., 4 distinct IDs all "Airtel").
-- **Treatment:** vendor-level analysis grouped by `vendor_name`, not `vendor_id`.
+Multiple `vendor_id`s map to the same real `vendor_name` (e.g., four distinct IDs all map to "Airtel"), so vendor-level analysis was grouped by `vendor_name` rather than `vendor_id`.
 
 ### 1.8 Weak cross-table attribution
 - Only ~15% of successful payments have any call/WhatsApp/SMS/field-visit touchpoint within 5 days beforehand; 85% show **no attributable touchpoint at all**, even across all four channels combined.
