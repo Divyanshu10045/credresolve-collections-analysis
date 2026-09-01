@@ -28,9 +28,7 @@ Minor but worth flagging: `PROMISE_TO_PAY` and `PTP` show up as two separate cod
 - **Business impact:** `promises_to_pay.status` cannot be used as a proxy for real repayment behavior. The commonly-tracked "PTP kept rate" is not validated against cash.
 
 ### 1.6 Referential gaps
-- 455 accounts have null `borrower_id`.
-- 898 `borrower_id`s referenced in `accounts.csv` do not exist in `borrowers.csv`.
-- **Treatment:** retained (not dropped) and flagged via `borrower_resolved` — dropping them would itself be a denominator-manipulation risk.
+455 accounts have null `borrower_id`, and another 898 referenced `borrower_id`s do not exist in `borrowers.csv`. I retained these records and flagged them via `borrower_resolved` rather than dropping them, since doing so would itself create a denominator-manipulation risk.
 
 ### 1.7 Vendor ID fragmentation
 - Multiple `vendor_id`s map to the same real `vendor_name` (e.g., 4 distinct IDs all "Airtel").
