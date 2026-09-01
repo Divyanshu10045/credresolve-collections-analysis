@@ -1,0 +1,8 @@
+step,raw_rows,kept_rows,rejected_rows,rejected_pct,note
+accounts (spine),30000,30000,0,0.00%,455 accounts flagged: no borrower_id
+account_status_history,60000,60000,0,0.00%,"exact (account,event_at,status) dupes dropped"
+payments,25500,20822,4678,18.35%,"amount impact: naive SUCCESS sum =1,341,485,926 -> golden =1,149,909,180"
+calls,91350,90000,1350,1.48%,"dedup by call_id, keep earliest event_at"
+call_dispositions,35000,33990,1010,2.89%,3926 PROMISE_TO_PAY rows merged into PTP
+whatsapp_events,60600,60000,600,0.99%,exact dupes dropped
+borrowers (dimension — DO NOT TRUST attributes),30600,11015,19585,64.00%,collapsed to distinct borrower_id only; name/phone/email/city/state EXCLUDED from analysis

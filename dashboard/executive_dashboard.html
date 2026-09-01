@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Collections Recovery — Executive Dashboard</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+  :root{--bg:#0f1419;--card:#1a2129;--line:#2a3441;--text:#e8ecef;--muted:#8fa1b3;
+        --red:#e85d5d;--green:#4ade80;--amber:#fbbf24;--blue:#60a5fa;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;padding:24px;}
+  .header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px;flex-wrap:wrap;gap:8px;}
+  .header h1{font-size:22px;font-weight:700;}
+  .header .sub{color:var(--muted);font-size:13px;}
+  .verdict{background:linear-gradient(135deg,#2a1518,#1a2129);border:1px solid var(--red);border-radius:12px;
+           padding:18px 22px;margin-bottom:20px;display:flex;align-items:center;gap:16px;}
+  .verdict .badge{background:var(--red);color:#fff;font-weight:800;font-size:13px;padding:6px 14px;border-radius:20px;white-space:nowrap;}
+  .verdict .text{font-size:15px;line-height:1.5;}
+  .verdict .text b{color:#fff;}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+  .card .label{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;}
+  .card .value{font-size:28px;font-weight:800;}
+  .card .delta{font-size:13px;margin-top:4px;font-weight:600;}
+  .delta.down{color:var(--red);} .delta.flat{color:var(--muted);} .delta.up{color:var(--green);}
+  .charts{display:grid;grid-template-columns:1.3fr 1fr;gap:16px;margin-bottom:20px;}
+  .chart-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;}
+  .chart-card h3{font-size:14px;color:var(--muted);margin-bottom:12px;font-weight:600;}
+  canvas{max-height:220px;}
+  .bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;}
+  .panel h3{font-size:13px;color:var(--muted);margin-bottom:10px;text-transform:uppercase;letter-spacing:.04em;}
+  .panel ul{list-style:none;font-size:13px;line-height:1.9;}
+  .panel li{border-bottom:1px dashed var(--line);padding:4px 0;display:flex;justify-content:space-between;}
+  .tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-right:6px;}
+  .tag.fact{background:#1f3a2e;color:var(--green);}
+  .tag.evidence{background:#3a2f1f;color:var(--amber);}
+  .tag.hyp{background:#2a2f3a;color:var(--blue);}
+  .footer-note{color:var(--muted);font-size:11px;margin-top:16px;text-align:center;}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <h1>Collections Recovery — Executive View</h1>
+    <div class="sub">Jan – Jul 2026 · August excluded (partial month, data cutoff Aug 8–12)</div>
+  </div>
+  <div class="sub">Golden dataset · deduplicated · point-in-time reconstructed</div>
+</div>
+
+<div class="verdict">
+  <div class="badge">CLAIM: FALSE</div>
+  <div class="text">
+    The reported <b>"11% MoM recovery improvement"</b> is a single volatile month (Feb→Mar, +10.99% naive),
+    not a trend. The real 7-month trend is <b>flat-to-declining</b> — down <b>18.6%</b> once duplicate payments are removed.
+    <b>Recovery per account and per agent-hour both declined ~19%</b> over the same window.
+  </div>
+</div>
+
+<div class="grid">
+  <div class="card">
+    <div class="label">Golden Recovery, Jul 2026</div>
+    <div class="value">₹14.7 Cr</div>
+    <div class="delta down">↓ 18.6% vs Jan (Golden)</div>
+  </div>
+  <div class="card">
+    <div class="label">Payment Duplication Rate</div>
+    <div class="value">14.3%</div>
+    <div class="delta flat">Constant every month — inflates totals, not the trend</div>
+  </div>
+  <div class="card">
+    <div class="label">Recovery / Agent-Hour</div>
+    <div class="value">₹13,150</div>
+    <div class="delta down">↓ 19% vs Jan (₹16,187)</div>
+  </div>
+  <div class="card">
+    <div class="label">PTP "Kept" → Actual Payment</div>
+    <div class="value">41%</div>
+    <div class="delta down">of "KEPT" PTPs have any matching payment, ever</div>
+  </div>
+</div>
+
+<div class="charts">
+  <div class="chart-card">
+    <h3>Monthly Recovery: Reported (naive) vs Golden (deduplicated)</h3>
+    <canvas id="recoveryChart"></canvas>
+  </div>
+  <div class="chart-card">
+    <h3>Recovery Efficiency — declining, not improving</h3>
+    <canvas id="efficiencyChart"></canvas>
+  </div>
+</div>
+
+<div class="bottom">
+  <div class="panel">
+    <h3>Driver Test Results (contact & recovery rate)</h3>
+    <ul>
+      <li><span><span class="tag fact">FACT</span>Risk segment</span><span>No effect (flat 10.8–11.0%)</span></li>
+      <li><span><span class="tag fact">FACT</span>DPD bucket</span><span>No effect (flat 10.6–11.4%)</span></li>
+      <li><span><span class="tag fact">FACT</span>Telephony vendor</span><span>No effect (flat ~19–21%)</span></li>
+      <li><span><span class="tag fact">FACT</span>Campaign channel</span><span>No effect (flat ~19–21%)</span></li>
+      <li><span><span class="tag fact">FACT</span>Attempt frequency</span><span>No effect</span></li>
+      <li><span><span class="tag evidence">N/A</span>Geography / language</span><span>Data unreliable — not tested</span></li>
+      <li><span><span class="tag evidence">N/A</span>Agent tenure</span><span>Data unreliable — not tested</span></li>
+      <li><span><span class="tag hyp">HYPOTHESIS</span>PTP-to-cash breakdown</span><span>Contributing mechanism</span></li>
+    </ul>
+  </div>
+  <div class="panel">
+    <h3>₹10 Cr Recommendation: WhatsApp/Digital — Piloted, Not Full Commit</h3>
+    <ul>
+      <li><span>Naive incremental recovery est.</span><span>₹11.4 Cr</span></li>
+      <li><span>Causally-adjusted estimate</span><span>₹2.3 – 4.5 Cr</span></li>
+      <li><span>Break-even (conservative case)</span><span>Not achieved Yr 1</span></li>
+      <li><span>Confidence</span><span>Low–Moderate</span></li>
+      <li><span>Recommended first step</span><span>₹1–1.5 Cr holdout pilot</span></li>
+      <li><span>Why: 85% of payments</span><span>have no attributable touchpoint</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="footer-note">Golden dataset — payments deduplicated by reference (earliest SUCCESS kept), calls deduped by call_id, PTP codes normalized. Agent/borrower demographic attributes excluded (unreliable — see Data Quality Report).</div>
+
+<script>
+const data = {"months": ["2026-01","2026-02","2026-03","2026-04","2026-05","2026-06","2026-07"],
+"naive_recovery_cr": [19.11,17.41,19.32,17.84,18.7,17.87,19.03],
+"golden_recovery_cr": [18.07,15.94,17.19,15.39,15.43,14.54,14.7],
+"recovery_per_account": [17501,16726,16506,15331,14883,14582,14304],
+"recovery_per_agent_hour": [16187,15102,15446,14487,14247,13585,13150]};
+
+const labels = data.months.map(m=>m.slice(5)+'/'+m.slice(2,4));
+
+new Chart(document.getElementById('recoveryChart'), {
+  type:'line',
+  data:{labels, datasets:[
+    {label:'Naive (as reported)', data:data.naive_recovery_cr, borderColor:'#fbbf24', backgroundColor:'transparent', tension:.3},
+    {label:'Golden (deduplicated)', data:data.golden_recovery_cr, borderColor:'#e85d5d', backgroundColor:'transparent', tension:.3, borderWidth:3}
+  ]},
+  options:{responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#e8ecef'}}},
+    scales:{x:{ticks:{color:'#8fa1b3'},grid:{color:'#2a3441'}},
+            y:{ticks:{color:'#8fa1b3',callback:v=>'₹'+v+'Cr'},grid:{color:'#2a3441'},title:{display:true,text:'₹ Crore',color:'#8fa1b3'}}}
+  }
+});
+
+new Chart(document.getElementById('efficiencyChart'), {
+  type:'bar',
+  data:{labels, datasets:[
+    {label:'Recovery / Agent-Hour (₹)', data:data.recovery_per_agent_hour, backgroundColor:'#60a5fa'}
+  ]},
+  options:{responsive:true, maintainAspectRatio:false,
+    plugins:{legend:{labels:{color:'#e8ecef'}}},
+    scales:{x:{ticks:{color:'#8fa1b3'},grid:{display:false}},
+            y:{ticks:{color:'#8fa1b3'},grid:{color:'#2a3441'}}}
+  }
+});
+</script>
+
+</body>
+</html>
