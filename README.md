@@ -16,7 +16,7 @@ Full reasoning: [`docs/EXECUTIVE_MEMO.md`](docs/EXECUTIVE_MEMO.md) (2-page summa
 ![Executive Dashboard](docs/images/dashboard_ovw.png)
 *One-screen view of the executive dashboard — open `dashboard/executive_dashboard.html` locally for the interactive version.*
 
-![Key Charts and Decision Support](docs/images/dashboard_key_charts.png)
+![Key Charts and Decision Support](docs/images/dashboard_chart.png)
 *Key analytical outputs: naive vs. golden recovery, recovery per agent-hour, driver-test results, and the ₹10 Cr pilot recommendation.*
 
 ## Repo structure
