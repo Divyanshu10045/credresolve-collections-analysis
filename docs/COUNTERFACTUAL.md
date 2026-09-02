@@ -1,6 +1,6 @@
 # Counterfactual: What Would Recovery Have Been Without the Mid-Year Targeting Change?
 
-**Status:** Final | **Script:** `notebooks/07_counterfactual_did.py`
+**Script:** `notebooks/07_counterfactual_did.py`
 **Lever studied:** `strategy_version` in `data/campaigns.csv` — the mid-year rollout moved targeting from the **old generation** (`legacy`, `v1`) to the **new generation** (`v2`, `v3`)
 **Treatment timing definition:** effective targeting exposure = account has a `status == "CONTACTED"` row in `data/daily_targeting.csv` whose campaign maps to a `strategy_version` **(effective delivery of the campaign to the account on that day)**
 **Outcome:** deduplicated SUCCESS recovery (₹) per account-month, `golden_dataset/payments_golden.csv`, Jan–Jul 2026
