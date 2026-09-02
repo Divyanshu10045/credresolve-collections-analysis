@@ -1,4 +1,4 @@
-# CredResolve Collections Analytics — Data Analyst Assignment
+# CredResolve — Data Analyst Assignment
 
 ## The headline answer
 
