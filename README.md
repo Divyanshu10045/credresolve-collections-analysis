@@ -78,6 +78,8 @@ python3 notebooks/01_profile.py          # initial data profiling
 python3 notebooks/02_golden_dataset.py   # builds golden_dataset/*.csv + cleaning_impact_log.csv
 python3 notebooks/03_metrics.py          # rate-based metric definitions
 python3 notebooks/04_drivers.py          # driver analysis across risk/DPD/vendor/channel/attempts
+python3 notebooks/06_statistical_investigation.py  # runs the 7 bias/effect checks
+python3 notebooks/07_counterfactual_did.py         # runs the DiD counterfactual test
 ```
 
 Or open `notebooks/ANALYSIS_NOTEBOOK.ipynb` for the full narrated walkthrough.
