@@ -23,20 +23,30 @@ Full reasoning: [`docs/EXECUTIVE_MEMO.md`](docs/EXECUTIVE_MEMO.md) (2-page summa
 
 ```
 docs/
-  EXECUTIVE_MEMO.md          <- start here (2 pages, answers all 4 leadership questions)
-  DATA_QUALITY_REPORT.md     <- every data issue found, how detected, how treated, impact
-  ARCHITECTURE.md            <- production pipeline design (Raw -> Staging -> ... -> Dashboard)
+  EXECUTIVE_MEMO.md            <- start here (2 pages, answers all 4 leadership questions)
+  DATA_QUALITY_REPORT.md       <- every data issue found, how detected, how treated, impact
+  ARCHITECTURE.md              <- production pipeline design (Raw -> Staging -> ... -> Dashboard)
+  STATISTICAL_INVESTIGATION.md <- 7 bias/effect checks behind the -18.6% number (mix, cohort,
+                                   selection, survivorship, Simpson's, attribution, time-series)
+  COUNTERFACTUAL.md            <- DiD test of whether the mid-year targeting change caused the decline
+  images/                      <- dashboard screenshots referenced above
+  architecture_diagram.svg
 notebooks/
-  ANALYSIS_NOTEBOOK.ipynb    <- full reasoning + code, narrated
-  01_profile.py .. 04_drivers.py   <- source scripts the notebook is built from
+  ANALYSIS_NOTEBOOK.ipynb      <- full reasoning + code, narrated
+  01_profile.py .. 04_drivers.py    <- initial profiling, golden dataset build, metrics, driver analysis
+  05_explore_strategy.py .. 05e_switch_timing.py  <- exploratory scripts behind the counterfactual
+  06_statistical_investigation.py   <- runs all 7 tests in STATISTICAL_INVESTIGATION.md
+  07_counterfactual_did.py          <- runs the DiD analysis in COUNTERFACTUAL.md
 sql/
-  01_golden_dataset.sql      <- reproducible cleaning logic as SQL views
-  02_metrics.sql             <- all metric definitions + the headline 11%-check query
+  01_golden_dataset.sql        <- reproducible cleaning logic as SQL views
+  02_metrics.sql                <- all metric definitions + the headline 11%-check query
 golden_dataset/
-  *_golden.csv                <- cleaned analytical tables
-  cleaning_impact_log.csv     <- raw -> kept -> rejected row counts per cleaning step
+  *_golden.csv                  <- cleaned analytical tables
+  cleaning_impact_log.csv       <- raw -> kept -> rejected row counts per cleaning step
+data/
+  *.csv, README.md              <- original source files as provided
 dashboard/
-  executive_dashboard.html    <- one-screen CEO view (open directly in a browser)
+  executive_dashboard.html      <- one-screen CEO view (open directly in a browser)
 ```
 
 ## Key findings
